@@ -1,39 +1,26 @@
 flowchart TD
 
-A[Document]
+A[Document Input] --> B{TOC Exists?}
 
-A --> B{TOC Available?}
+B -- No --> C[User Updates TOC]
+C --> A
 
-B -->|No| B1[Add / Fix TOC]
-B -->|Yes| C[Extract Content]
+B -- Yes --> D[Extract Text (OCR + Native)]
+D --> E[Extract Assets (Code, Tables, Figures)]
 
-B1 --> C
+E --> F[TOC-based Sectioning]
 
-C --> D[Text + OCR + Assets]
+F --> G[Recursive Chunking]
+G --> H[Windowed Chunk Refinement]
 
-D --> E[TOC-Based Chunking]
+H --> I[Attach Metadata]
+I --> J[Link Assets as Primary Chunks]
 
-E --> F{Chunk Size OK?}
+J --> K[Chunks Ready]
 
-F -->|No| G[Refine to Sentence Level]
-F -->|Yes| H[Keep Chunk]
+%% Styling
+classDef process fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px;
+classDef decision fill:#FFEBEE,stroke:#C62828,stroke-width:1px;
 
-G --> H
-
-H --> I[Add Metadata]
-I --> J[Section Summary]
-
-J --> K[Extract References]
-K --> L[Build Knowledge Graph]
-
-L --> M[Enhanced Chunks]
-
-%% Color Coding
-classDef input fill:#E3F2FD,stroke:#1E88E5;
-classDef process fill:#E8F5E9,stroke:#43A047;
-classDef decision fill:#FFF3E0,stroke:#FB8C00;
-
-class A input;
-class B,F decision;
-class C,D,E,G,H,I,J,K,L,M process;
-class B1 process;
+class A,C,D,E,F,G,H,I,J,K process;
+class B decision;
