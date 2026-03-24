@@ -1,0 +1,39 @@
+flowchart TD
+
+A[Document]
+
+A --> B{TOC Available?}
+
+B -->|No| B1[Add / Fix TOC]
+B -->|Yes| C[Extract Content]
+
+B1 --> C
+
+C --> D[Text + OCR + Assets]
+
+D --> E[TOC-Based Chunking]
+
+E --> F{Chunk Size OK?}
+
+F -->|No| G[Refine to Sentence Level]
+F -->|Yes| H[Keep Chunk]
+
+G --> H
+
+H --> I[Add Metadata]
+I --> J[Section Summary]
+
+J --> K[Extract References]
+K --> L[Build Knowledge Graph]
+
+L --> M[Enhanced Chunks]
+
+%% Color Coding
+classDef input fill:#E3F2FD,stroke:#1E88E5;
+classDef process fill:#E8F5E9,stroke:#43A047;
+classDef decision fill:#FFF3E0,stroke:#FB8C00;
+
+class A input;
+class B,F decision;
+class C,D,E,G,H,I,J,K,L,M process;
+class B1 process;
