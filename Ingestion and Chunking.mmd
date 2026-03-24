@@ -1,26 +1,97 @@
-flowchart TD
+---​
 
-A[Document Input] --> B{TOC Exists?}
+config:​
 
-B -- No --> C[User Adds / Fixes TOC]
-C --> A
+  layout: fixed​
 
-B -- Yes --> D[Extract Text (Native + OCR)]
-D --> E[Extract Assets (Code, Tables, Figures)]
+  look: classic​
 
-E --> F[TOC-based Sectioning]
+  theme: redux​
 
-F --> G[Recursive Chunking (Structure-aware)]
-G --> H[Windowed Chunking (Sentence-level)]
+---​
 
-H --> I[Attach Metadata (Section Path, Links)]
-I --> J[Link Assets as Primary Chunks]
+flowchart TB​
 
-J --> K[Prepared Chunks]
+ subgraph TOC_Processing["TOC-Based Chunking"]​
 
-%% Styling
-classDef process fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px;
-classDef decision fill:#FFEBEE,stroke:#C62828,stroke-width:1px;
+    direction TB​
 
-class A,C,D,E,F,G,H,I,J,K process;
-class B decision;
+        H["Windowed Chunking (Sentence-level)"]​
+
+        G["Recursive Chunking (Structure-aware)"]​
+
+        I["Attach Metadata (Section ID, Path, Title)"]​
+
+        J["Link Assets as Primary Chunks"]​
+
+  end​
+
+    A["<b>Document Input</b>"] --> B{"<b>TOC Exists?</b>"}​
+
+    B -- No --> C["<b>Add/Modify Table of Content</b>"]​
+
+    B -- Yes --> D["<b>Extract TOC</b>"]​
+
+    G L_G_H_0@--> H​
+
+    H --> I​
+
+    I --> J​
+
+    B --> E["<b>Extract &amp; Classify Assets</b>"] & X["<b>Extract Text</b>"]​
+
+    E --> L["Tables"] & M["Codes"] & K["Figures"]​
+
+    X --> Y["Embedded Text"] & Z["Scanned Text"]​
+
+    D --> n1["Untitled Node"]​
+
+    C --> A​
+
+​
+​
+
+    n1@{ shape: anchor}​
+
+     H:::process​
+
+     G:::process​
+
+     I:::process​
+
+     J:::process​
+
+     A:::process​
+
+     B:::decision​
+
+     C:::process​
+
+     D:::process​
+
+     E:::process​
+
+     L:::process​
+
+     M:::process​
+
+     K:::process​
+
+     X:::process​
+
+     Y:::process​
+
+     Z:::process​
+
+    classDef process fill:#E3F2FD,stroke:#1976D2,stroke-width:1px​
+
+    classDef decision fill:#FFEBEE,stroke:#C62828,stroke-width:1px​
+
+    classDef stage fill:#F1F8FE,stroke:#0277BD,stroke-width:2px,stroke-dasharray: 5 5​
+
+​
+​
+
+    ​
+
+​
