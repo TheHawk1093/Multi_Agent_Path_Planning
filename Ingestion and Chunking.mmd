@@ -1,0 +1,26 @@
+flowchart TD
+
+A[Document Input] --> B{TOC Exists?}
+
+B -- No --> C[User Adds / Fixes TOC]
+C --> A
+
+B -- Yes --> D[Extract Text (Native + OCR)]
+D --> E[Extract Assets (Code, Tables, Figures)]
+
+E --> F[TOC-based Sectioning]
+
+F --> G[Recursive Chunking (Structure-aware)]
+G --> H[Windowed Chunking (Sentence-level)]
+
+H --> I[Attach Metadata (Section Path, Links)]
+I --> J[Link Assets as Primary Chunks]
+
+J --> K[Prepared Chunks]
+
+%% Styling
+classDef process fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px;
+classDef decision fill:#FFEBEE,stroke:#C62828,stroke-width:1px;
+
+class A,C,D,E,F,G,H,I,J,K process;
+class B decision;
