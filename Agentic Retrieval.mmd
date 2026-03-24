@@ -1,36 +1,144 @@
-flowchart TD
+flowchart LR​
 
-A[User Query] --> B[Query Planning Agent]
+ subgraph Planning_Phase["1. Strategic Planning (Blue Agent)"]​
 
-B --> C[Decompose Query + Identify Intent]
+        B["<b>Query Planner Agent</b><br>Decomposes into Dependencies<br>&amp; Resource Requirements"]​
 
-C --> D[Parallel Retrieval Agents]
+  end​
 
-D --> E[ANN Search (Chunks + Summaries)]
-E --> F[Section Ranking (Support-based)]
+ subgraph Retrieval_Phase["2. Multi-Tier Retrieval (Green Agent)"]​
 
-F --> G[Context Assembly]
+        C["<b>Parallel Retrieval Agent</b><br>Executes Sub-tasks"]​
 
-G --> H[Context Filtering Agent]
-H --> I[Query Augmentation Agent]
+        D1["ANN Search:<br>Top K1 Chunks"]​
 
-I --> J[LLM Reasoning]
+        D2["ANN Search:<br>Top K2 Summary Sections"]​
 
-J --> K{More Context Needed?}
-K -- Yes --> D
-K -- No --> L{Context Sufficient?}
+        E{"Ref Docs<br>Detected?"}​
 
-L -- No --> M[Fallback Answer (Explain)]
-L -- Yes --> N[Grounded Answer]
+        F@{ label: "<b>Reference Miner Agent</b><br>Performs ANN on Refs:<br>- Top K' per Doc<br>- Global 'Extra' Sections" }​
 
-M --> O[Final Response + Assets + Traceability]
-N --> O
+        G["Raw Context Pool"]​
 
-%% Styling
-classDef process fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px;
-classDef decision fill:#FFEBEE,stroke:#C62828,stroke-width:1px;
-classDef llm fill:#FFF3E0,stroke:#EF6C00,stroke-width:1px;
+  end​
 
-class A,B,C,D,E,F,G,H,I,M,N,O process;
-class K,L decision;
-class J llm;
+ subgraph Filtering_Phase["3. Relevance Pruning (Orange Agent)"]​
+
+        H["<b>Context Filtering Agent</b><br>Retains Vital Tech Specs;<br>Discards Noise/Overlap"]​
+
+  end​
+
+ subgraph Reasoning_Phase["4. Gap Analysis (Purple Agent)"]​
+
+        I["<b>Reasoning Agent</b><br>Identifies Missing Variables<br>or Insufficient Data"]​
+
+        J{"Needs More<br>Context?"}​
+
+        K{"Retry Cap<br>Reached?"}​
+
+  end​
+
+ subgraph Synthesis_Phase["5. Final Synthesis (Teal Agent)"]​
+
+        L["<b>Grounded Answer Agent</b><br>Technical Synthesis with<br>Traceability &amp; Citations"]​
+
+        M{"Partial Data<br>Available?"}​
+
+        N["<b>Hybrid Answer Agent</b><br>Grounded Output +<br>General Domain Knowledge"]​
+
+        O@{ label: "<b>Fallback Agent</b><br>Return 'Insufficient Context'<br>+ Missing Data Report" }​
+
+        P[/"Final Response Asset"/]​
+
+  end​
+
+    A[/"User Engineering Query"/] --> B​
+
+    C --> D1 & D2​
+
+    D1 --> E​
+
+    D2 --> E​
+
+    E -- Yes --> F​
+
+    E -- No --> G​
+
+    F --> G​
+
+    G --> H​
+
+    H --> I​
+
+    I --> J​
+
+    J -- Yes (Specific Gap) --> K​
+
+    K -- No --> C​
+
+    J -- No (Sufficient) --> L​
+
+    K -- Yes (Cap Hit) --> M​
+
+    M -- Yes --> N​
+
+    M -- No --> O​
+
+    L --> P​
+
+    N --> P​
+
+    O --> P​
+
+​
+​
+
+    F@{ shape: rect}​
+
+    O@{ shape: rect}​
+
+     B:::planner​
+
+     C:::retrieval​
+
+     D1:::data​
+
+     D2:::data​
+
+     E:::data​
+
+     F:::retrieval​
+
+     G:::data​
+
+     H:::filter​
+
+     I:::reasoning​
+
+     J:::data​
+
+     K:::data​
+
+     L:::answer​
+
+     M:::data​
+
+     N:::answer​
+
+     O:::answer​
+
+     P:::data​
+
+    classDef planner fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1​
+
+    classDef retrieval fill:#F1F8E9,stroke:#33691E,stroke-width:2px,color:#1B5E20​
+
+    classDef filter fill:#FFF3E0,stroke:#E65100,stroke-width:2px,color:#BF360C​
+
+    classDef reasoning fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C​
+
+    classDef answer fill:#E0F7FA,stroke:#006064,stroke-width:2px,color:#006064​
+
+    classDef data fill:#FFFFFF,stroke:#9E9E9E,stroke-dasharray: 5 5​
+
+​
