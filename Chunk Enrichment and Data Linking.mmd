@@ -1,0 +1,21 @@
+flowchart TD
+
+A[Prepared Chunks] --> B[Generate Section Summaries]
+
+B --> C[Extract Intra-Document References]
+C --> D[Extract Cross-Document References]
+
+D --> E[Link Sections via References]
+
+E --> F[Augment Metadata (Signals: Code, Figures, Tables)]
+
+F --> G[Build Section Context]
+
+G --> H[(Enriched Knowledge Base)]
+
+%% Styling
+classDef process fill:#E8F5E9,stroke:#2E7D32,stroke-width:1px;
+classDef data fill:#E3F2FD,stroke:#1565C0,stroke-width:1px;
+
+class A,B,C,D,E,F,G process;
+class H data;
