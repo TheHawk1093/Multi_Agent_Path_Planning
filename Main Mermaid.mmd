@@ -1,0 +1,29 @@
+flowchart LR
+
+A[Document Input]
+B[Chunking + Enhancement]
+C[Embeddings + Storage]
+D[Retrieval]
+E[LLM Reasoning]
+F[Response]
+
+A --> B --> C --> D --> E --> F
+
+D --> G[Agentic Planner]
+G --> E
+
+E -->|Low Context| H[LLM Fallback]
+
+%% Color Coding
+classDef input fill:#E3F2FD,stroke:#1E88E5,stroke-width:1.5px;
+classDef process fill:#E8F5E9,stroke:#43A047,stroke-width:1.5px;
+classDef decision fill:#FFF3E0,stroke:#FB8C00,stroke-width:1.5px;
+classDef output fill:#F3E5F5,stroke:#8E24AA,stroke-width:1.5px;
+
+class A input;
+class B,C,D,E,G process;
+class H decision;
+class F output;
+
+
+
