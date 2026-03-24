@@ -6,7 +6,7 @@ A([Start]) --> B[Document Input]
 B --> C{TOC Exists?}
 C -- No --> D[User Adds TOC]
 D --> B
-C -- Yes --> E[Extract Text (OCR + Native) & Assets]
+C -- Yes --> E["Extract Text (OCR + Native) & Assets"]
 
 E --> F[TOC-based Sectioning]
 F --> G[Dual-layer Chunking]
@@ -29,7 +29,7 @@ P --> Q{Need More Context?}
 Q -- Yes --> M
 Q -- No --> R{Context Sufficient?}
 
-R -- No --> S[Fallback Generation (Explain)]
+R -- No --> S["Fallback Generation (Explain)"]
 R -- Yes --> T[Grounded Answer]
 
 S --> U[Response + Assets + Traceability]
