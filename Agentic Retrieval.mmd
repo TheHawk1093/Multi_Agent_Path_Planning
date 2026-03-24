@@ -1,12 +1,11 @@
 flowchart LR​
 
- subgraph Planning_Phase["1. Strategic Planning (Blue Agent)"]​
+subgraph Planning_Phase["1. Strategic Planning (Blue Agent)"]​
 
         B["<b>Query Planner Agent</b><br>Decomposes into Dependencies<br>&amp; Resource Requirements"]​
+end​
 
-  end​
-
- subgraph Retrieval_Phase["2. Multi-Tier Retrieval (Green Agent)"]​
+subgraph Retrieval_Phase["2. Multi-Tier Retrieval (Green Agent)"]​
 
         C["<b>Parallel Retrieval Agent</b><br>Executes Sub-tasks"]​
 
@@ -20,15 +19,15 @@ flowchart LR​
 
         G["Raw Context Pool"]​
 
-  end​
+end​
 
- subgraph Filtering_Phase["3. Relevance Pruning (Orange Agent)"]​
+subgraph Filtering_Phase["3. Relevance Pruning (Orange Agent)"]​
 
         H["<b>Context Filtering Agent</b><br>Retains Vital Tech Specs;<br>Discards Noise/Overlap"]​
 
-  end​
-
- subgraph Reasoning_Phase["4. Gap Analysis (Purple Agent)"]​
+end
+​
+subgraph Reasoning_Phase["4. Gap Analysis (Purple Agent)"]​
 
         I["<b>Reasoning Agent</b><br>Identifies Missing Variables<br>or Insufficient Data"]​
 
@@ -36,9 +35,9 @@ flowchart LR​
 
         K{"Retry Cap<br>Reached?"}​
 
-  end​
+end​
 
- subgraph Synthesis_Phase["5. Final Synthesis (Teal Agent)"]​
+subgraph Synthesis_Phase["5. Final Synthesis (Teal Agent)"]​
 
         L["<b>Grounded Answer Agent</b><br>Technical Synthesis with<br>Traceability &amp; Citations"]​
 
@@ -50,7 +49,7 @@ flowchart LR​
 
         P[/"Final Response Asset"/]​
 
-  end​
+end​
 
     A[/"User Engineering Query"/] --> B​
 
