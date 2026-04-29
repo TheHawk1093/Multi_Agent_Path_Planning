@@ -1,0 +1,85 @@
+---
+config:
+  layout: elk
+---
+
+flowchart LR
+
+%% ===================== ORCHESTRATOR =====================
+subgraph ORCH["Input"]
+    Q["User Query"]
+end
+
+%% ===================== PLANNER (PLAN) =====================
+subgraph PLAN["Query Decomposition (Plan)"]
+    P1["Decompose into Subqueries"]
+    P2["Assign Intent Labels\n(Factual / Comparison / Procedural / Analytical)"]
+    Q --> P1 --> P2
+end
+
+%% ===================== WORKER (RETRIEVAL) =====================
+subgraph WORK["Retrieval Workers (Execute)"]
+    R1["Retrieve Top-K Sections"]
+    R2["Retrieve Top-K' for each Referenced Doc"]
+    P2 --> R1 --> R2
+end
+
+%% ===================== CONTEXT BUILDER =====================
+subgraph CTX["Context Construction & Refinement (Execute)"]
+    C1["Aggregate Context"]
+    C2["Extract Relevant Information"]
+    C3["Primary Context Formation"]
+    R2 --> C1 --> C2 --> C3
+end
+
+%% ===================== EVALUATOR LOOP =====================
+subgraph LOOP["Context Sufficiency Loop (Evaluate)"]
+    E1["Context Evaluation Agent Agent"]
+    E2{"Sufficient?"}
+    E3["General Retrieval\n/ Refined Retrieval"]
+    
+    C3 --> E1 --> E2
+    E2 -- No --> E3 --> R1
+end
+
+%% ===================== ANSWERING =====================
+subgraph ANS["Answer Generation"]
+    A1["Answering Agent"]
+    E2 -- Yes --> A1
+end
+
+%% ===================== CRITIC LOOP =====================
+subgraph CRITIC["Agent-Critic Loop"]
+    CR1["Critic Agent"]
+    CR2{"Answer Acceptable?"}
+    CR3["Refine Answer / Guidance"]
+    
+    A1 --> CR1 --> CR2
+    CR2 -- No --> CR3 --> A1
+end
+
+%% ===================== OUTPUT =====================
+subgraph OUT["Final Output"]
+    F["Final Answer"]
+    CR2 -- Yes --> F
+end
+
+linkStyle default stroke-width:3px
+
+classDef orchestrator fill:#1f77b4,stroke:#0d3b66,stroke-width:4px,color:#ffffff
+classDef planner fill:#2ca02c,stroke:#14532d,stroke-width:4px,color:#ffffff
+classDef worker fill:#ff7f0e,stroke:#7c2d12,stroke-width:4px,color:#ffffff
+classDef context fill:#9467bd,stroke:#4c1d95,stroke-width:4px,color:#ffffff
+classDef evaluator fill:#d62728,stroke:#7f1d1d,stroke-width:4px,color:#ffffff
+classDef answer fill:#17becf,stroke:#155e75,stroke-width:4px,color:#ffffff
+classDef critic fill:#bcbd22,stroke:#4d4d00,stroke-width:4px,color:#000000
+classDef output fill:#7f7f7f,stroke:#1f2937,stroke-width:4px,color:#ffffff
+
+class Q,O orchestrator
+class P1,P2 planner
+class R1,R2 worker
+class C1,C2,C3 context
+class E1,E2,E3 evaluator
+class A1 answer
+class CR1,CR2,CR3 critic
+class F output
